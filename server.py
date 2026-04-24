@@ -7,10 +7,11 @@ app = Flask(__name__)
 def detect_emotion():
     text_to_analyze = request.args.get("text", "")
 
-    if text_to_analyze == "":
-        return "Please provide a text query parameter, e.g. /emotionDetector?text=I+love+my+life"
-
     result = emotion_detector(text_to_analyze)
+
+    # Handle blank input
+    if result["dominant_emotion"] is None:
+        return "Invalid text! Please try again!"
 
     anger = result["anger"]
     disgust = result["disgust"]
